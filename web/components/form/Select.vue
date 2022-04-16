@@ -1,9 +1,9 @@
 <template>
   <div class="w-full">
-    <label :for="name" class="block text-sm font-medium text-gray-700 mb-1">
+    <label v-if="label" :for="name" class="block mb-1 text-sm font-medium text-gray-700">
       {{ label }}
     </label>
-    <select v-model="newValue" :name="name" class="block focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md w-full">
+    <select v-model="newValue" :name="name" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       <option v-for="option in options" :key="option.value" :value="option.value">
         {{ option.label }}
       </option>
