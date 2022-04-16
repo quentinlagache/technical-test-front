@@ -25,7 +25,7 @@
               <div class="flex space-x-4">
                 <div class="w-20 h-5 bg-gray-200 rounded-full" />
                 <div class="flex-1 max-w-sm py-1 space-y-6">
-                  <div class="h-2 bg-gray-200 rounded" />
+                  <div class="h-3 bg-gray-200 rounded" />
                 </div>
               </div>
               <div class="max-w-sm mt-4 space-y-3">
@@ -36,7 +36,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex space-x-2.5">
+            <div class="flex space-x-2.5 ml-2.5">
               <div class="w-5 h-5 bg-gray-200 rounded" />
               <div class="w-5 h-5 bg-gray-200 rounded" />
             </div>
