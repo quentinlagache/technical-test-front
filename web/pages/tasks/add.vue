@@ -6,11 +6,9 @@
         Add a task
       </h1>
     </div>
-    <div v-if="success" class="p-4 bg-green-100 rounded-md">
-      <h3 class="text-sm font-medium text-green-800">
-        Succesfully created task
-      </h3>
-    </div>
+    <Alert v-if="success" type="success">
+      Succesfully created task
+    </Alert>
     <TaskForm
       v-else
       @submit="createTask"

@@ -21,11 +21,9 @@
           />
         </div>
       </div>
-      <div v-else-if="$fetchState.error" class="p-4 rounded-md bg-red-50">
-        <h3 class="text-sm font-medium text-red-800">
-          Unable to fetch tasks
-        </h3>
-      </div>
+      <Alert v-else-if="$fetchState.error">
+        Unable to fetch tasks
+      </Alert>
       <div v-else-if="tasks.length > 0" class="overflow-hidden bg-white shadow sm:rounded-xl">
         <ul role="list" class="divide-y divide-gray-200">
           <li v-for="task in filteredTasks" :key="task.id">

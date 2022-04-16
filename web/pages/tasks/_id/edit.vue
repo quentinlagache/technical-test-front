@@ -9,16 +9,12 @@
     <div v-if="$fetchState.pending" class="px-10 py-8 bg-white shadow rounded-xl">
       <SkeletonTaskForm />
     </div>
-    <div v-else-if="$fetchState.error" class="p-4 rounded-md bg-red-50">
-      <h3 class="text-sm font-medium text-red-800">
-        Unable to fetch task {{ taskId }}
-      </h3>
-    </div>
-    <div v-if="success" class="p-4 bg-green-100 rounded-md">
-      <h3 class="text-sm font-medium text-green-800">
-        Succesfully updated task
-      </h3>
-    </div>
+    <Alert v-else-if="$fetchState.error">
+      Unable to fetch task {{ taskId }}
+    </Alert>
+    <Alert v-if="success" type="success">
+      Succesfully updated task
+    </Alert>
     <TaskForm
       v-else-if="task"
       :title="task.title"
