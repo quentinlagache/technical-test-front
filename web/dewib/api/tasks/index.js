@@ -4,7 +4,7 @@ export const TASK_STATUS = [{
   label: 'All',
   value: 'ALL'
 }, {
-  label: 'ToDo',
+  label: 'To Do',
   value: 'TODO'
 }, {
   label: 'Done',
@@ -31,21 +31,23 @@ export const TASKS_FIELDS = ['id', 'title', 'description', 'createdAt', 'updated
   key: 'dateLabel',
   mapping ({ model }) {
     // Date label to be formated according to mock up
-    if (model.date) {
-      return new Date(model.date)
-    }
+    if (model.date) { return new Date(model.date).toLocaleString('en', { dateStyle: 'long' }) }
   }
 }, {
   key: 'createdAtLabel',
   mapping ({ model }) {
     // createdAt label to be formated according to mock up
     return new Date(model.createdAt)
+      .toLocaleString('en', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h24' })
+      .replace(/,(?!.*,)/, ' -')
   }
 }, {
   key: 'updatedAtLabel',
   mapping ({ model }) {
     // updatedAt label to be formated according to mock up
     return new Date(model.updatedAt)
+      .toLocaleString('en', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h24' })
+      .replace(/,(?!.*,)/, ' -')
   }
 }]
 
