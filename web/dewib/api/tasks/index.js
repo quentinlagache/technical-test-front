@@ -25,7 +25,7 @@ export const TASKS_FIELDS = ['id', 'title', 'description', 'createdAt', 'updated
   key: 'date',
   mapping ({ model }) {
     // Convert for input type `datetime-local`
-    if (model.date) { return new Date(model.date).toISOString().replace('Z', '') }
+    if (model.date) { return new Date(model.date).toISOString().split('T')[0] }
   }
 }, {
   key: 'dateLabel',
@@ -88,7 +88,10 @@ export default class TasksService extends ApiModel {
    * @param {*} form
    * @returns Task
    */
-  // this.post(url, body, { fields: TASK_FIELDS })
+
+  create (form) {
+    return this.post('', form, { fields: TASK_FIELDS })
+  }
 
   /**
    * Update a task ?
@@ -97,7 +100,9 @@ export default class TasksService extends ApiModel {
    * @param {*} form
    * @returns
    */
-  // this.patch(url, body, { fields: TASK_FIELDS })
+  update ({ id, form }) {
+    return this.patch(id, form, { fields: TASK_FIELDS })
+  }
 
   /**
    * Remove a task ?
@@ -105,5 +110,7 @@ export default class TasksService extends ApiModel {
    * @param {*} id
    * @returns
    */
-  // this.delete(url)
+  remove (id) {
+    return this.delete(id)
+  }
 }
