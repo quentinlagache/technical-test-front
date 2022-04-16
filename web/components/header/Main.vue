@@ -5,7 +5,7 @@
         <SvgIcon name="icons/logo" class="w-10 h-10" />
         Task editor
       </NuxtLink>
-      <NuxtLink v-if="$nuxt.$route.name === 'index'" :to="{ name: 'add' }" class="px-4 py-2 font-medium text-indigo-600 bg-white rounded-md">
+      <NuxtLink v-if="$nuxt.$route.name === 'index'" :to="{ name: 'tasks-add' }" class="px-4 py-2 font-medium text-indigo-600 bg-white rounded-md">
         Add
       </NuxtLink>
     </div>

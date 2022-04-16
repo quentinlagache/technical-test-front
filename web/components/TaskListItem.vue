@@ -10,10 +10,10 @@
         </p>
       </div>
       <div class="flex items-center space-x-2.5 ml-5">
-        <NuxtLink :to="{ name: 'edit' }">
+        <NuxtLink :to="{ name: 'tasks-id-edit', params: {id: id} }">
           <SvgIcon name="icons/pencil" class="w-5 h-5 p-1 text-white bg-indigo-600 rounded" />
         </NuxtLink>
-        <button>
+        <button @click="$emit('remove')">
           <SvgIcon name="icons/trash" class="w-5 h-5 p-1 text-white bg-red-600 rounded" />
         </button>
       </div>
