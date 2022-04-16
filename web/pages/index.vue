@@ -63,6 +63,7 @@
               :created-at-label="task.createdAtLabel"
               :updated-at="task.updatedAt"
               :updated-at-label="task.updatedAtLabel"
+              @remove="removeTask(task.id)"
             />
           </li>
         </ul>
@@ -75,7 +76,7 @@
           Get started by creating a new task.
         </p>
         <div class="mt-6">
-          <NuxtLink :to="{ name: 'add' }" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <NuxtLink :to="{ name: 'tasks-add' }" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <SvgIcon name="icons/plus-circle" class="w-4 h-4 mr-2" aria-hidden="true" />
             New Task
           </NuxtLink>
@@ -113,6 +114,18 @@ export default {
     filteredTasks () {
       if (this.filter === 'ALL') { return this.tasks }
       return this.tasks.filter(task => task.status.value === this.filter)
+    }
+  },
+  methods: {
+    async removeTask (id) {
+      if (!confirm('Are you sure you want to delete this task?')) { return }
+      const [err] = await this.$api.tasks.remove(id)
+
+      if (err) {
+        throw new Error(err)
+      }
+
+      this.tasks = this.tasks.filter(task => task.id !== id)
     }
   }
 }
