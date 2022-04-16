@@ -1,20 +1,22 @@
 <template>
-  <form class="grid grid-cols-2 gap-6 px-10 py-8 bg-white shadow rounded-xl">
+  <form class="grid grid-cols-2 gap-6 px-10 py-8 bg-white shadow rounded-xl" @submit.prevent="submit">
     <FormInput
       v-model="titleValue"
       class="col-span-2"
       name="task-title"
       label="Title"
+      required
     />
     <FormInputTextArea
       v-model="descriptionValue"
       class="col-span-2"
       name="task-description"
       label="Describe it"
+      required
     />
     <FormInput
       v-model="dateValue"
-      type="datetime-local"
+      type="date"
       name="task-date"
       label="Date"
     />
@@ -23,6 +25,7 @@
       name="task-status"
       label="Status"
       :options="statusOptions"
+      required
     />
     <button
       type="submit"
@@ -30,12 +33,13 @@
     >
       Submit
     </button>
-    <NuxtLink
-      :to="{ name: 'index' }"
+    <button
+      type="button"
       class="flex justify-center col-span-2 px-4 py-2 text-sm font-medium text-black border border-transparent rounded-md shadow-sm bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200"
+      @click="$emit('cancel')"
     >
       Cancel
-    </NuxtLink>
+    </button>
   </form>
 </template>
 
@@ -44,16 +48,48 @@
 import { TASK_STATUS } from '@/dewib/api/tasks'
 
 export default {
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    description: {
+      type: String,
+      default: ''
+    },
+    status: {
+      type: String,
+      default: 'TODO',
+      validator (value) {
+        return TASK_STATUS.map(s => s.value).includes(value)
+      }
+    },
+    date: {
+      type: String,
+      required: false,
+      default: ''
+    }
+  },
   data () {
     return {
-      titleValue: '',
-      descriptionValue: '',
-      dateValue: '',
-      statusValue: '',
+      titleValue: this.title,
+      descriptionValue: this.description,
+      dateValue: this.date,
+      statusValue: this.status,
       statusOptions: [
         { value: '', label: 'Choose a status' },
         ...TASK_STATUS.filter(s => s.value !== 'ALL')
       ]
+    }
+  },
+  methods: {
+    submit () {
+      this.$emit('submit', {
+        title: this.titleValue,
+        description: this.descriptionValue,
+        ...(this.dateValue.length > 0 && { date: this.dateValue }),
+        status: this.statusValue
+      })
     }
   }
 }
