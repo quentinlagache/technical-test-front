@@ -47,7 +47,13 @@ export class AppService {
 
     // The tasks must be listed by ascending deadline `date`, then by order of creation `createdAt` if no deadline `date`.
     // You can use external libraries to perform this.
-    return _tasks;
+    const orderedTasks = orderBy(
+      _tasks,
+      ['date', 'createdAt'],
+      ['asc', 'desc'],
+    );
+
+    return orderedTasks;
   }
 
   findOne(id: string): Task {
