@@ -3,7 +3,7 @@
     <label v-if="label" :for="name" class="block mb-1 text-sm font-medium text-gray-700">
       {{ label }}
     </label>
-    <select v-model="newValue" :name="name" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <select v-model="newValue" :name="name" :required="required" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       <option v-for="option in options" :key="option.value" :value="option.value">
         {{ option.label }}
       </option>
@@ -29,6 +29,10 @@ export default {
     options: {
       type: Array,
       required: true
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
