@@ -7,16 +7,7 @@
       </h1>
     </div>
     <div v-if="$fetchState.pending" class="px-10 py-8 bg-white shadow rounded-xl">
-      <div
-        class="grid grid-cols-2 gap-6 animate-pulse"
-      >
-        <div class="w-full h-10 col-span-2 bg-gray-200 rounded" />
-        <div class="w-full h-20 col-span-2 bg-gray-200 rounded" />
-        <div class="w-full h-10 bg-gray-200 rounded" />
-        <div class="w-full h-10 bg-gray-200 rounded" />
-        <div class="w-full h-10 col-span-2 bg-gray-200 rounded" />
-        <div class="w-full h-10 col-span-2 bg-gray-200 rounded" />
-      </div>
+      <SkeletonTaskForm />
     </div>
     <div v-else-if="$fetchState.error" class="p-4 rounded-md bg-red-50">
       <h3 class="text-sm font-medium text-red-800">
