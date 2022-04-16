@@ -1,27 +1,27 @@
 <template>
   <form class="grid grid-cols-1 gap-6 px-10 py-8 bg-white shadow sm:grid-cols-2 sm:rounded-xl" @submit.prevent="submit">
     <FormInput
-      v-model="titleValue"
+      v-model="formValue.title"
       class="sm:col-span-2"
       name="task-title"
       label="Title"
       required
     />
     <FormInputTextArea
-      v-model="descriptionValue"
+      v-model="formValue.description"
       class="sm:col-span-2"
       name="task-description"
       label="Describe it"
       required
     />
     <FormInput
-      v-model="dateValue"
+      v-model="formValue.date"
       type="date"
       name="task-date"
       label="Date"
     />
     <FormSelect
-      v-model="statusValue"
+      v-model="formValue.status"
       name="task-status"
       label="Status"
       :options="statusOptions"
@@ -72,10 +72,12 @@ export default {
   },
   data () {
     return {
-      titleValue: this.title,
-      descriptionValue: this.description,
-      dateValue: this.date,
-      statusValue: this.status,
+      formValue: {
+        title: this.title,
+        description: this.description,
+        date: this.date,
+        status: this.status
+      },
       statusOptions: [
         { value: '', label: 'Choose a status' },
         ...TASK_STATUS.filter(s => s.value !== 'ALL')
@@ -84,11 +86,10 @@ export default {
   },
   methods: {
     submit () {
+      const { date, ...data } = this.formValue
       this.$emit('submit', {
-        title: this.titleValue,
-        description: this.descriptionValue,
-        ...(this.dateValue.length > 0 && { date: this.dateValue }),
-        status: this.statusValue
+        ...data,
+        ...(date.length > 0 && { date })
       })
     }
   }
