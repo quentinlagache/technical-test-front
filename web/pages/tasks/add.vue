@@ -6,12 +6,15 @@
         Add a task
       </h1>
     </div>
+    <Alert v-if="error">
+      Unable to create task
+    </Alert>
     <Alert v-if="success" type="success">
       Succesfully created task
     </Alert>
     <TaskForm
       v-else
-      @submit="createTask"
+      @submit="submit"
       @cancel="$router.push('/')"
     />
   </div>
@@ -25,22 +28,31 @@ export default {
   },
   data () {
     return {
-      success: false
+      success: false,
+      error: false
     }
   },
   methods: {
-    async createTask (form) {
+    async submit (form) {
       this.success = false
+      this.error = false
+      try {
+        await this.createTask(form)
+
+        this.success = true
+        setTimeout(() => {
+          this.$router.push('/')
+        }, 1000)
+      } catch (error) {
+        this.error = true
+      }
+    },
+    async createTask (form) {
       const [err] = await this.$api.tasks.create(form)
 
       if (err) {
         throw new Error(err)
       }
-
-      this.success = true
-      setTimeout(() => {
-        this.$router.push('/')
-      }, 1000)
     }
   }
 }

@@ -10,7 +10,10 @@
       <SkeletonTaskForm />
     </div>
     <Alert v-else-if="$fetchState.error">
-      Unable to fetch task {{ taskId }}
+      Unable to fetch task
+    </Alert>
+    <Alert v-if="error">
+      Unable to update task
     </Alert>
     <Alert v-if="success" type="success">
       Succesfully updated task
@@ -21,7 +24,7 @@
       :status="task.status.value"
       :description="task.description"
       :date="task.date"
-      @submit="updateTask"
+      @submit="submit"
       @cancel="$router.push('/')"
     />
   </div>
@@ -37,7 +40,8 @@ export default {
     return {
       taskId: this.$route.params.id,
       task: undefined,
-      success: false
+      success: false,
+      error: false
     }
   },
   async fetch () {
@@ -54,6 +58,20 @@ export default {
     this.task = task
   },
   methods: {
+    async submit (form) {
+      this.success = false
+      this.error = false
+      try {
+        await this.updateTask(form)
+
+        this.success = true
+        setTimeout(() => {
+          this.$router.push('/')
+        }, 1000)
+      } catch (error) {
+        this.error = true
+      }
+    },
     async updateTask (form) {
       this.success = false
       const [err] = await this.$api.tasks.update({ id: this.taskId, form })
@@ -61,11 +79,6 @@ export default {
       if (err) {
         throw new Error(err)
       }
-
-      this.success = true
-      setTimeout(() => {
-        this.$router.push('/')
-      }, 1000)
     }
   }
 }
