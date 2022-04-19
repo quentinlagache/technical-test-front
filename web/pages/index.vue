@@ -74,11 +74,14 @@ export default {
     }
   },
   async fetch () {
+    const queryParams = {}
+    if (['DONE', 'TODO'].includes(this.filter)) { queryParams.status = this.filter }
+
     // add fake timeout to show pending state
     // eslint-disable-next-line nuxt/no-timing-in-fetch-data
     await new Promise(resolve => setTimeout(resolve, 500))
 
-    const [err, tasks] = await this.$api.tasks.findAll()
+    const [err, tasks] = await this.$api.tasks.findAll(queryParams)
 
     if (err) {
       throw new Error(err)
@@ -90,6 +93,11 @@ export default {
     filteredTasks () {
       if (this.filter === 'ALL') { return this.tasks }
       return this.tasks.filter(task => task.status.value === this.filter)
+    }
+  },
+  watch: {
+    filter () {
+      this.$fetch()
     }
   },
   methods: {
